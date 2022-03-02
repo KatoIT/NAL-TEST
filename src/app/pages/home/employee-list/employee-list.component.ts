@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "../../../model/user";
+import {Employee} from "../../../model/employee";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-team-list',
@@ -8,7 +9,150 @@ import {User} from "../../../model/user";
 })
 export class EmployeeListComponent implements OnInit {
 
-  users: User[] = [
+  users: Employee[] = [
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
+    {
+      id: 1,
+      email: 'abc@gmai.com',
+      fullName: 'Nguyen Van A',
+      birthday: new Date(),
+      gender: true,
+      introduce: 'introduce',
+      selfIntroduce: 'selfIntroduce',
+      password: 'aaaaa',
+      joinDate: new Date(),
+      address: 'Đống Đa, Hà Nội',
+      avatar: 'avatar.png'
+    },
     {
       id: 1,
       email: 'abc@gmai.com',
@@ -37,10 +181,13 @@ export class EmployeeListComponent implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
   }
 
+  public viewProfileEmployee(id: number|undefined): void {
+    this.router.navigate(['error'])
+  }
 }

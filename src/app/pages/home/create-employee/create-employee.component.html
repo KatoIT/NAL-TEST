@@ -1,0 +1,154 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header" data-background-color="red">
+            <h4 class="title">Create employee</h4>
+          </div>
+          <div class="card-content">
+            <form [formGroup]="userForm" (ngSubmit)="createUser()">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Email</label>
+                    <input type="text" class="form-control" formControlName="email" [readonly]="readonly">
+                    <!-- Validate -->
+                    <div *ngIf="email && email.invalid && (email.dirty || email.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="email.errors?.['required']">
+                        FullName is required.
+                      </div>
+                      <div *ngIf="email.errors?.['minlength']">
+                        FullName must be at least 5 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Password</label>
+                    <input type="password" class="form-control" formControlName="password"
+                           id="password" [readonly]="readonly">
+                    <!-- Validate -->
+                    <div *ngIf="password && password.invalid && (password.dirty || password.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="password.errors?.['required']">
+                        FullName is required.
+                      </div>
+                      <div *ngIf="password.errors?.['minlength']">
+                        FullName must be at least 5 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" formControlName="fullName"
+                           id="fullName" [readonly]="readonly">
+                    <!-- Validate -->
+                    <div *ngIf="fullName && fullName.invalid && (fullName.dirty || fullName.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="fullName.errors?.['required']">
+                        FullName is required.
+                      </div>
+                      <div *ngIf="fullName.errors?.['minlength']">
+                        FullName must be at least 5 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Gender</label><br>
+                    <select formControlName="gender" class="form-control">
+                      <option [value]="true">Nam</option>
+                      <option [value]="false">Nữ</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Birthday</label>
+                    <input type="date" class="form-control" formControlName="birthday" [readonly]="readonly">
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Date of joining the company</label>
+                    <input type="date" class="form-control" formControlName="joinDate" [readonly]="readonly">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group form-danger label-floating is-empty">
+                    <label>Address</label>
+                    <input type="text" class="form-control" formControlName="address" [readonly]="readonly">
+                    <!-- Validate -->
+                    <div *ngIf="address && address.invalid && (address.dirty || address.touched)"
+                         class="alert alert-danger">
+                      <div *ngIf="address.errors?.['required']">
+                        Address is required.
+                      </div>
+                      <div *ngIf="address.errors?.['minlength']">
+                        Address must be at least 5 characters long.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>About Me</label>
+                    <div class="form-group form-info label-floating is-empty">
+                      <label>Quick introduce.</label>
+                      <textarea class="form-control" rows="3" [readonly]="readonly"
+                                formControlName="introduce"></textarea>
+                    </div>
+                    <div class="form-group form-info label-floating is-empty">
+                      <label>I will introduce myself.</label>
+                      <textarea class="form-control" rows="5" formControlName="selfIntroduce"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <button class="btn btn-danger pull-right">Create Employee</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+
+
+          <div class="content">
+            <h5 class="text-success">{{user.email}}</h5>
+            <h3 class="card-title">{{user.fullName}}</h3>
+            <p class="card-content">
+              {{user.introduce}}
+            </p>
+            <a href="#pablo" class="btn btn-danger btn-round">Change password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

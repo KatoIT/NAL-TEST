@@ -9,10 +9,10 @@ import {HomeComponent} from "./pages/home/home.component";
 import {AuthGuard} from "./guards/auth.guard";
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent, canActivate: [AuthGuard]},
-  {path: '', redirectTo: 'home', pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent},
 ];
 

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
-import {User} from "../../../model/user";
+import {Employee} from "../../../model/employee";
+import {AuthService} from "../../../services/auth.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +12,8 @@ import {User} from "../../../model/user";
 export class UserProfileComponent implements OnInit {
 
   title = 'User Profile';
-  user: User = {
+  readonly = false;
+  user: Employee = {
     id: 1,
     email: 'abc@gmai.com',
     fullName: 'Nguyen Van A',
@@ -24,8 +27,14 @@ export class UserProfileComponent implements OnInit {
     avatar: 'avatar.png'
   };
 
-  constructor(private titleService: Title) {
+  constructor(private titleService: Title,
+              private authService: AuthService) {
     this.titleService.setTitle(this.title);
+    if (authService.roles === environment.role_admin) {
+      this.readonly = false;
+    } else {
+      this.readonly = true;
+    }
   }
 
   ngOnInit() {

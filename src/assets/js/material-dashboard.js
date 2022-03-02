@@ -15,22 +15,22 @@
  */
 
 
-let searchVisible = 0;
-let transparent = true;
+var searchVisible = 0;
+var transparent = true;
 
-let transparentDemo = true;
-let fixedTop = false;
+var transparentDemo = true;
+var fixedTop = false;
 
-let seq = 0, delays = 80, durations = 500;
-let seq2 = 0, delays2 = 80, durations2 = 500;
+var seq = 0, delays = 80, durations = 500;
+var seq2 = 0, delays2 = 80, durations2 = 500;
 
 $(document).ready(function(){
 
-  let $sidebar = $('.sidebar');
+  var $sidebar = $('.sidebar');
 
     $.material.init();
 
-  let window_width = $(window).width();
+  var window_width = $(window).width();
     // check if there is an image set for the sidebar's background
     //  Activate the tooltips
     $('[rel="tooltip"]').tooltip();

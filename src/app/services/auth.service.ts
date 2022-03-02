@@ -1,15 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {ROUTES} from "../components/sidebar/sidebar-routes.config";
+import {ROLE_PATH} from "../pages/home/role-path.config";
+import {RolePathMetadata} from "../pages/home/role-path.metadata";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   public roles: string = '';
+  rolePaths: RolePathMetadata[] = [];
 
   constructor(private router: Router,
   ) {
+    this.rolePaths = ROLE_PATH;
   }
 
   public setToken(token: string) {
@@ -22,7 +28,7 @@ export class AuthService {
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
     // console.log('decodedToken', decodedToken);
-    this.roles = decodedToken.roles.map((role:string) => role.toLowerCase());
+    this.roles = decodedToken.roles.map((role: string) => role.toLowerCase());
     console.log('roles', this.roles);
 
     // const expirationDate = helper.getTokenExpirationDate(token);
@@ -55,14 +61,26 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    return this.getToken() !== null;
+    // return this.getToken() !== null;
+    this.roles = environment.role_admin;
+    return true;
   }
 
   public canAccess(url: string) {
     console.log('canAccess', this.roles, url);
-    if (this.roles.includes('admin')) {
-      // console.log('admin OK');
+    if (this.roles === environment.role_admin) {
       return true;
+    } else {
+      if (this.roles === environment.role_user) {
+        let rolePath = this.rolePaths.find(value => value.role === environment.role_user);
+        console.log(rolePath)
+        if (rolePath !== undefined && rolePath.paths.includes(url)) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+
     }
     const page = url.toString().substr(1);
     // console.log('canAccess', page);
@@ -78,11 +96,12 @@ export class AuthService {
     this.router.navigate(['/']).then(value => ['error']);
   }
 
-  public login(backUrl: string): void {
-    this.openDialog(backUrl);
-  }
-
-  private openDialog(backUrl: string): void {
+  public login(): void {
     this.router.navigate(['login']).then(value => ['error']);
   }
+
+  public notFoundPage(): void {
+    this.router.navigate(['error']).then(value => ['error']);
+  }
+
 }

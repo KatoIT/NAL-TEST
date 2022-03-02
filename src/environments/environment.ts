@@ -7,6 +7,7 @@ export const environment = {
   apiUrl: 'http://localhost:8080',
   role_admin: 'ROLE_ADMIN',
   role_user: 'ROLE_USER',
+  role_anonymous: 'ROLE_ANONYMOUS',
 };
 
 /*

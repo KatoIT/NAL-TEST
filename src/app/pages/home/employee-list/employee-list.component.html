@@ -7,35 +7,48 @@
             <h4 class="title">The list of Employee</h4>
             <p class="category">List of all employees</p>
           </div>
+
           <div class="card-content table-responsive">
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th>ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Action</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let user of users">
-                <td>{{user.id}}</td>
-                <td>{{user.fullName}}</td>
-                <td>{{user.email}}</td>
-                <td *ngIf="user.gender">Nam</td>
-                <td *ngIf="!user.gender">Nữ</td>
-                <td>
-                  <a [routerLink]="['user-profile']">
-                    <i class="material-icons">edit</i>
-                  </a>
-                  <a [routerLink]="['']">
-                    <i class="material-icons">delete</i>
-                  </a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+            <div class="col-md-10">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Full Name</th>
+                  <th>Email</th>
+                  <th>Gender</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of users" (click)="viewProfileEmployee(user.id)">
+                  <td>{{user.id}}</td>
+                  <td>{{user.fullName}}</td>
+                  <td>{{user.email}}</td>
+                  <td *ngIf="user.gender">Nam</td>
+                  <td *ngIf="!user.gender">Nữ</td>
+                  <td>
+                    <a [routerLink]="['/home/employee', user.id]">
+                      <i class="material-icons">edit</i>
+                    </a>
+                    <a [routerLink]="['/home/employee', user.id]">
+                      <i class="material-icons">delete</i>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+
+            </div>
+            <div class="col-md-2">
+              <div>
+                <a class="btn btn-success" [routerLink]="['/home/employee']">
+                  <i class="material-icons">add</i>
+                  <span>Add Employee</span>
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

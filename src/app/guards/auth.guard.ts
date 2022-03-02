@@ -9,6 +9,7 @@ import {AuthService} from "../services/auth.service";
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService) {
   }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot):
@@ -24,9 +25,10 @@ export class AuthGuard implements CanActivate {
       if (this.authService.canAccess(state.url)) {
         return true;
       }
+      this.authService.notFoundPage();
       return false;
     } else {
-      this.authService.login(state.url);
+      this.authService.login();
       return false;
     }
   }
