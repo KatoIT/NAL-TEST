@@ -1,29 +1,29 @@
 package com.nal.backend.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "groups")
-public class Group {
+@Table(name = "teams")
+public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "groups")
+    private String avatar;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "teams")
     private Set<User> users;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "avatarId")
-    private Avatar avatar;
 }

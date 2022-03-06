@@ -1,8 +1,6 @@
 package com.nal.backend.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,7 +8,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
@@ -25,26 +24,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
     private boolean gender;
 
-    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
     private String introduce;
 
-    @Column(nullable = false)
     private String selfIntroduce;
 
-    @Column(nullable = false)
+    private String avatar;
+
     @DateTimeFormat(pattern = "yyy/MM/dd")
     private LocalDate birthday;
 
-    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyy/MM/dd")
     private LocalDate joinDate;
 
@@ -61,12 +55,9 @@ public class User {
     private Set<ProgrammingLanguage> programmingLanguages;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usersGroups",
+    @JoinTable(name = "usersTeams",
             joinColumns = {@JoinColumn(name = "userId")},
-            inverseJoinColumns = {@JoinColumn(name = "groupId")})
-    private Set<Group> groups;
+            inverseJoinColumns = {@JoinColumn(name = "teamId")})
+    private Set<Team> teams;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "avatarId")
-    private Avatar avatar;
 }

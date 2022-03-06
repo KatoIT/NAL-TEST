@@ -1,6 +1,5 @@
 package com.nal.backend.controller;
 
-
 import com.nal.backend.model.JwtResponse;
 import com.nal.backend.domain.Role;
 import com.nal.backend.domain.User;
@@ -38,7 +37,7 @@ public class AuthController {
     private IUserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User userDTO) {
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         UsernamePasswordAuthenticationToken value = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
 
         Authentication authentication = authenticationManager.authenticate(value);
@@ -52,12 +51,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User userDTO) {
-        Optional<User> users = userService.findByEmail(userDTO.getEmail());
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        Optional<User> users = userService.findByEmail(user.getEmail());
         if (users.isPresent()) {
             return new ResponseEntity<>("Email already exists",HttpStatus.BAD_REQUEST);
         }
-        Set<Role> roles = userDTO.getRoles();
+        Set<Role> roles = user.getRoles();
         for (Role role : roles) {
             if (roleService.findByName(role.getName()) == null) {
                 roleService.save(role);
@@ -66,8 +65,9 @@ public class AuthController {
                 role.setId(roleService.findByName(role.getName()).getId());
             }
         }
-        userService.save(userDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
+
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
 
