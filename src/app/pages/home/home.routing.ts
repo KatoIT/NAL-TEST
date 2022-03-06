@@ -12,9 +12,12 @@ import {IconsComponent} from './icons/icons.component';
 import {MapsComponent} from './maps/maps.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {UpgradeComponent} from './upgrade/upgrade.component';
-import {EmployeeListComponent} from "./employee-list/employee-list.component";
+import {UserListComponent} from "./user-list/user-list.component";
 import {AuthGuard} from "../../guards/auth.guard";
-import {CreateEmployeeComponent} from "./create-employee/create-employee.component";
+import {CreateUserComponent} from "./user/create-user/create-user.component";
+import {CreateTeamComponent} from "./team/create-team/create-team.component";
+import {EditTeamComponent} from "./team/edit-team/edit-team.component";
+import {EditUserComponent} from "./user/edit-user/edit-user.component";
 
 
 const routes: Routes = [
@@ -23,9 +26,12 @@ const routes: Routes = [
     children: [
       {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
       {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
-      {path: 'employee', component: CreateEmployeeComponent, canActivate: [AuthGuard]},
+      {path: 'user/:id', component: EditUserComponent, canActivate: [AuthGuard]},
+      {path: 'user', component: CreateUserComponent, canActivate: [AuthGuard]},
+      {path: 'team/:id', component: EditTeamComponent, canActivate: [AuthGuard]},
+      {path: 'team', component: CreateTeamComponent, canActivate: [AuthGuard]},
       {path: 'teams', component: TeamListComponent, canActivate: [AuthGuard]},
-      {path: 'employees', component: EmployeeListComponent, canActivate: [AuthGuard]},
+      {path: 'users', component: UserListComponent, canActivate: [AuthGuard]},
       {path: 'typography', component: TypographyComponent, canActivate: [AuthGuard]},
       {path: 'icons', component: IconsComponent, canActivate: [AuthGuard]},
       {path: 'maps', component: MapsComponent, canActivate: [AuthGuard]},
@@ -34,6 +40,7 @@ const routes: Routes = [
     ]
   }
 ];
+
 
 @NgModule({
   imports: [

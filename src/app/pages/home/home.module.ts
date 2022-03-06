@@ -14,31 +14,39 @@ import {IconsComponent} from './icons/icons.component';
 import {MapsComponent} from './maps/maps.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {UpgradeComponent} from './upgrade/upgrade.component';
-import {EmployeeListComponent} from "./employee-list/employee-list.component";
-import {CreateEmployeeComponent} from "./create-employee/create-employee.component";
+import {UserListComponent} from "./user-list/user-list.component";
+import {CreateUserComponent} from "./user/create-user/create-user.component";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CreateTeamComponent} from './team/create-team/create-team.component';
+import {EditUserComponent} from './user/edit-user/edit-user.component';
+import {EditTeamComponent} from './team/edit-team/edit-team.component';
+import {DeleteUserModalComponent} from './user/delete-user-modal/delete-user-modal.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        ComponentsModule,
-        HomeRoutingModule,
-        RouterModule,
-        ReactiveFormsModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ComponentsModule,
+    HomeRoutingModule,
+    RouterModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     HomeComponent,
     DashboardComponent,
     UserProfileComponent,
     TeamListComponent,
-    EmployeeListComponent,
+    UserListComponent,
     TypographyComponent,
     IconsComponent,
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    CreateEmployeeComponent
+    CreateUserComponent,
+    CreateTeamComponent,
+    EditUserComponent,
+    EditTeamComponent,
+    DeleteUserModalComponent
   ]
 })
 export class HomeModule {

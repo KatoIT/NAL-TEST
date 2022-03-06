@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Router} from "@angular/router";
-import {JwtHelperService} from '@auth0/angular-jwt';
-import {ROUTES} from "../components/sidebar/sidebar-routes.config";
 import {ROLE_PATH} from "../pages/home/role-path.config";
 import {RolePathMetadata} from "../pages/home/role-path.metadata";
 import {environment} from "../../environments/environment";
@@ -10,7 +8,6 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class AuthService {
-  public roles: string = '';
   rolePaths: RolePathMetadata[] = [];
 
   constructor(private router: Router,
@@ -18,29 +15,13 @@ export class AuthService {
     this.rolePaths = ROLE_PATH;
   }
 
-  public setToken(token: string) {
-    if (!token) {
+  public getUserId() {
+    const userName = localStorage.getItem('id');
+    if (!userName) {
       this.removeToken();
       return;
     }
-    localStorage.setItem('token', token);
-
-    const helper = new JwtHelperService();
-    const decodedToken = helper.decodeToken(token);
-    // console.log('decodedToken', decodedToken);
-    this.roles = decodedToken.roles.map((role: string) => role.toLowerCase());
-    console.log('roles', this.roles);
-
-    // const expirationDate = helper.getTokenExpirationDate(token);
-    // const isExpired = helper.isTokenExpired(token);
-
-    // console.log('expirationDate', expirationDate);
-    // console.log('isExpired', isExpired);
-  }
-
-  public removeToken() {
-    localStorage.removeItem('token');
-    this.roles = '';
+    return userName;
   }
 
   public getToken() {
@@ -49,51 +30,61 @@ export class AuthService {
       this.removeToken();
       return;
     }
-    if (this.roles.length === 0) {
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(token);
-      // console.log('decodedToken', decodedToken);
-      this.roles = decodedToken.roles.map((role: string) => role.toLowerCase());
-      console.log('roles', this.roles);
-    }
-
     return token;
   }
 
+  public getRoles() {
+    const roles = localStorage.getItem('roles');
+    if (!roles) {
+      this.removeToken();
+      return;
+    }
+    return roles;
+  }
+
+  public setToken(token: any) {
+    if (!token) {
+      this.removeToken();
+      return;
+    }
+    localStorage.setItem('token', token.accessToken);
+    localStorage.setItem('roles', token.roles[0].authority);
+    localStorage.setItem('id', token.id);
+    window.location.href = 'http://localhost:4200'
+  }
+
+  public removeToken() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('roles');
+    localStorage.removeItem('id');
+  }
+
   public isLoggedIn(): boolean {
-    // return this.getToken() !== null;
-    this.roles = environment.role_admin;
-    return true;
+    console.log(this.getToken(), 'getToken')
+    return this.getToken() !== null && this.getToken() !== undefined;
   }
 
   public canAccess(url: string) {
-    console.log('canAccess', this.roles, url);
-    if (this.roles === environment.role_admin) {
+    console.log('canAccess', this.getRoles(), url);
+    let roles = this.getRoles();
+    if (roles === environment.role_admin) {
       return true;
     } else {
-      if (this.roles === environment.role_user) {
+      if (roles === environment.role_user) {
         let rolePath = this.rolePaths.find(value => value.role === environment.role_user);
-        console.log(rolePath)
         if (rolePath !== undefined && rolePath.paths.includes(url)) {
           return true;
         }
       } else {
-        return true;
+        return false;
       }
-
     }
-    const page = url.toString().substr(1);
-    // console.log('canAccess', page);
-    if (this.roles.includes(page)) {
-      return true;
-    }
-    console.error('Bạn không thể vào trang ' + page);
     return false;
   }
 
   public logout() {
     this.removeToken();
-    this.router.navigate(['/']).then(value => ['error']);
+    this.login();
   }
 
   public login(): void {

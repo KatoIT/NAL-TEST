@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
       console.error('Bạn không thể vào phòng bí mật này !');
       return false;
     }
+    console.log(this.authService.isLoggedIn(), 'isLogin')
     if (this.authService.isLoggedIn()) {
       if (this.authService.canAccess(state.url)) {
         return true;

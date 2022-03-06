@@ -8,7 +8,7 @@
             <p class="category">Complete your profile</p>
           </div>
           <div class="card-content">
-            <form>
+            <form [formGroup]="userForm" (ngSubmit)="updateUser()">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group form-danger label-floating is-empty">
@@ -61,7 +61,16 @@
                     <label>About Me</label>
                     <div class="form-group form-info label-floating is-empty">
                       <label>I will introduce myself.</label>
-                      <textarea class="form-control" rows="5">{{user.selfIntroduce}}</textarea>
+                      <textarea class="form-control" rows="5" formControlName="selfIntroduce">{{user.selfIntroduce}}</textarea><!-- Validate -->
+                      <div *ngIf="selfIntroduce && selfIntroduce.invalid && (selfIntroduce.dirty || selfIntroduce.touched)"
+                           class="alert alert-danger">
+                        <div *ngIf="selfIntroduce.errors?.['required']">
+                          Address is required.
+                        </div>
+                        <div *ngIf="selfIntroduce.errors?.['minlength']">
+                          Address must be at least 10 characters long.
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

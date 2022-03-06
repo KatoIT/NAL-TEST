@@ -7,12 +7,12 @@
             <h4 class="title">Login</h4>
           </div>
           <div class="card-content">
-            <form>
+            <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
               <div class="row">
                 <div class="col-md-10">
                   <div class="form-group form-black label-floating is-empty">
                     <label class="control-label">User Name</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" formControlName="userName">
                   </div>
                 </div>
               </div>
@@ -20,10 +20,11 @@
                 <div class="col-md-10">
                   <div class="form-group form-black label-floating is-empty">
                     <label class="control-label">Password</label>
-                    <input type="text" class="form-control">
+                    <input type="password" class="form-control" formControlName="password">
                   </div>
                 </div>
               </div>
+              <div class="alert alert-danger text-success" *ngIf="message">{{message}}</div>
               <button type="submit" class="btn btn-danger">Login Now</button>
               <div class="clearfix"></div>
             </form>

@@ -11,16 +11,17 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[] = [];
-  role: string = '';
+  role: string|undefined = '';
 
   constructor(private authService: AuthService) {
-    this.role = authService.roles
+    this.role = authService.getRoles();
   }
 
   ngOnInit() {
     $.getScript('../../assets/js/sidebar-moving-tab.js');
     // this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.menuItems = ROUTES;
+    console.log(this.role)
   }
 
 }

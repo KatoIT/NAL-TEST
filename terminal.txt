@@ -2,3 +2,4 @@ npm install bootstrap --save
 npm install popper.js
 nmp install jquery --save
 npm install @auth0/angular-jwt
+npm install ng2-cookies

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  apiUrl: 'http://localhost:8080/api',
   role_admin: 'ROLE_ADMIN',
   role_user: 'ROLE_USER',
   role_anonymous: 'ROLE_ANONYMOUS',
