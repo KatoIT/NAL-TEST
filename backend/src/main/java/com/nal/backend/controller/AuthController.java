@@ -1,78 +1,56 @@
 package com.nal.backend.controller;
 
-
-import com.nal.backend.model.JwtResponse;
 import com.nal.backend.domain.Role;
 import com.nal.backend.domain.User;
-import com.nal.backend.model.UserDTO;
-import com.nal.backend.service.jwt.JwtService;
 import com.nal.backend.service.role.RoleService;
-import com.nal.backend.service.user.IUserService;
+import com.nal.backend.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:4200")
-@RestController
-@RequestMapping("/api")
+@Controller
 public class AuthController {
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtService jwtService;
-
+    private UserService userService;
     @Autowired
     private RoleService roleService;
 
     @Autowired
-    private IUserService userService;
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User userDTO) {
-        UsernamePasswordAuthenticationToken value = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
-
-        Authentication authentication = authenticationManager.authenticate(value);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = jwtService.generateTokenLogin(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User currentUser = userService.findByEmail(userDTO.getEmail()).get();
-        return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName(), userDetails.getAuthorities()));
-    }
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User userDTO) {
-        Optional<User> users = userService.findByEmail(userDTO.getEmail());
-        if (users.isPresent()) {
-            return new ResponseEntity<>("Email already exists",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        Optional<User> optionalUser = userService.findByEmail(user.getEmail());
+        if (optionalUser.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Set<Role> roles = userDTO.getRoles();
-        for (Role role : roles) {
-            if (roleService.findByName(role.getName()) == null) {
-                roleService.save(role);
-                roleService.flush();
-            } else {
-                role.setId(roleService.findByName(role.getName()).getId());
+        Set<Role> roleList = user.getRoles();
+        Set<Role> roleDbList = new HashSet<>();
+        for (Role role : roleList) {
+            Role roleObj = roleService.findByName(role.getName());
+            if (roleObj == null) {
+                roleObj = role;
+                roleService.save(roleObj);
             }
+            roleDbList.add(roleObj);
         }
-        userService.save(userDTO);
-        return new ResponseEntity<>(userDTO, HttpStatus.CREATED);
+        user.setRoles(roleDbList);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        return new ResponseEntity<>("Hello World", HttpStatus.OK);
+    @GetMapping("hello")
+    public String hello() {
+        return "hellO";
     }
 }
