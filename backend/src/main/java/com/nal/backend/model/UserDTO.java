@@ -1,6 +1,5 @@
 package com.nal.backend.model;
 
-import com.nal.backend.domain.Role;
 import com.nal.backend.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;

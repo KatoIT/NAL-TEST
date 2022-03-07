@@ -25,7 +25,7 @@ public class TeamController {
         List<Team> teams = teamService.findAll();
         List<TeamDTO> teamDTOList = teams.stream().map(TeamDTO::new).collect(Collectors.toList());
         if (!teamDTOList.isEmpty()) {
-            return new ResponseEntity<>(teamDTOList, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(teamDTOList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("No teams", HttpStatus.BAD_REQUEST);
         }
@@ -34,11 +34,10 @@ public class TeamController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTeam(@PathVariable("id") Long id) {
         Optional<Team> optionalTeam = teamService.findById(id);
-        TeamDTO teamDTO = new TeamDTO();
         if (optionalTeam.isPresent()) {
             Team team = optionalTeam.get();
-            BeanUtils.copyProperties(team, teamDTO);
-            return new ResponseEntity<>(teamDTO, HttpStatus.ACCEPTED);
+            TeamDTO teamDTO = new TeamDTO(team);
+            return new ResponseEntity<>(teamDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Team do not exist", HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +51,7 @@ public class TeamController {
             teamDTO.setId(team.getId());
             BeanUtils.copyProperties(teamDTO, team);
             teamService.save(team);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Team do not exist", HttpStatus.BAD_REQUEST);
         }
@@ -63,7 +62,7 @@ public class TeamController {
         Optional<Team> optionalTeam = teamService.findById(id);
         if (optionalTeam.isPresent()) {
             teamService.remove(id);
-            return new ResponseEntity<>("Delete successful", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>("Delete successful", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Team do not exist", HttpStatus.BAD_REQUEST);
         }

@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,6 +37,9 @@ public class AuthController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
         UsernamePasswordAuthenticationToken value = new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword());
@@ -45,6 +49,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtService.generateTokenLogin(authentication);
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User currentUser = userService.findByEmail(userDTO.getEmail()).get();
         return ResponseEntity.ok(new JwtResponse(jwt, currentUser.getId(), userDetails.getUsername(), currentUser.getFullName(), userDetails.getAuthorities()));
@@ -65,7 +70,7 @@ public class AuthController {
                 role.setId(roleService.findByName(role.getName()).getId());
             }
         }
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
